@@ -1,0 +1,39 @@
+% Proficient = 
+IF(
+    -- Check if either "Level 3+4" or "Number Tested" is blank
+    ISBLANK(
+        SUMX(
+            FILTER(
+                'ALL Combined Data',
+                'ALL Combined Data'[Measure] = "Level 3+4" -- Filters rows where Measure is "Level 3+4"
+            ),
+            'ALL Combined Data'[Value] -- Summing the values of "Level 3+4"
+        )
+    ) || ISBLANK(
+        SUMX(
+            FILTER(
+                'ALL Combined Data',
+                'ALL Combined Data'[Measure] = "Number Tested" -- Filters rows where Measure is "Number Tested"
+            ),
+            'ALL Combined Data'[Value] -- Summing the values of "Number Tested"
+        )
+    ),
+    BLANK(), -- Return BLANK if either "Level 3+4" or "Number Tested" is missing or blank
+    DIVIDE(
+        -- Calculate % Proficient by dividing "Level 3+4" by "Number Tested"
+        SUMX(
+            FILTER(
+                'ALL Combined Data',
+                'ALL Combined Data'[Measure] = "Level 3+4" -- Filters rows where Measure is "Level 3+4"
+            ),
+            'ALL Combined Data'[Value] -- Summing the values of "Level 3+4"
+        ),
+        SUMX(
+            FILTER(
+                'ALL Combined Data',
+                'ALL Combined Data'[Measure] = "Number Tested" -- Filters rows where Measure is "Number Tested"
+            ),
+            'ALL Combined Data'[Value] -- Summing the values of "Number Tested"
+        )
+    )
+)
